@@ -1,0 +1,43 @@
+.nav-link{
+    color: #fff !important;
+}
+
+ul{
+    list-style-type: none;
+}
+
+.deleteForm{
+    display: inline-block;
+}
+
+#campground-card ul{
+    list-style-type: none; 
+}
+
+#campground-card ul li{
+    padding: 5px;
+    border-bottom: 0.2px solid #333;
+}
+
+.list-group-item{
+    border-bottom: none;
+}
+
+.form-container{
+    text-align: center;
+    width: 30%;
+    margin: 20px auto;
+}
+
+.form-container label{
+    float: left;
+}
+
+.disabled a{
+    color: grey !important;
+}
+
+.forgot{
+    text-align: start;
+    float: left;
+}

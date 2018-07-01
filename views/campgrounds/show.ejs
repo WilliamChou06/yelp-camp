@@ -1,0 +1,99 @@
+<% include ../partials/header %>
+    
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <p class="lead">Yelp Camp</p>
+            <ul class="list-group">
+                <li class="list-group-item active">Info 1</li>
+                <li class="list-group-item">Info 2</li>
+                <li class="list-group-item">Info 3</li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <img class="card-img" src="<%= campground.image %>" alt="">
+                <div class="card-body">
+                    <h6 class="card-subtitle text-muted text-right">$ <%= campground.price %>/night</h6>
+                    <div class="card-title"><h3><a href="#"><%= campground.name %></a></h3></div>
+                    <div class="card-text"><p><%= campground.description %></p></div>
+                    <div class="card-text"><p><em>Submitted by: <a href="/users/<%= campground.author.id %>"><%= campground.author.username %></a> - <%= moment(campground.created).fromNow(); %></em></p></div>
+                    <% if((currentUser && currentUser._id.equals(campground.author.id)) || currentUser && currentUser.isAdmin){ %>
+                        <a href="/campgrounds/<%= campground._id %>/edit" class="btn btn-warning">Edit Campground</a>
+                        <form class="deleteForm" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
+                        <button class="btn btn-danger"> Delete Campground</button>
+                        </form>
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="card bg-light">
+                <div class="card-body">
+                    <div class="text-right"><p><a class="btn btn-success btn-sm" data-toggle="collapse" href="#collapseComment">Add New Comment</a></p></div>
+                    <div class="collapse" id="collapseComment">
+                        <% if(!currentUser){ %>
+                            <h5>You need to <a href="/login">login</a> before adding a comment.</h5>
+                        <% } %>
+
+                        <% if(currentUser){ %>
+                            <h4>Write your comment</h4>
+                            <form action="/campgrounds/<%= campground._id %>/comments" method="POST">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" value="<%= currentUser.username %>" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <textarea class="form-control" name="comment[text]" rows="7"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-success btn-sm">Comment</button>
+                                </div>
+                            </form>
+                        <% } %>
+                    </div>
+                    <% campground.comments.forEach(function(comment){ %>
+                    <hr>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <strong><%= comment.author.username %></strong>
+                                <span class="float-right"><%= moment(comment.created).fromNow() %></span>
+                                <br>
+                                <p><%= comment.text %></p>
+                            </div>
+                            <div class="col-md-12">
+                                <% if(currentUser && currentUser._id.equals(comment.author.id) || currentUser && currentUser.isAdmin){ %>
+                                    <a href="#collapseEdit<%= comment._id %>" class="btn btn-warning" data-toggle="collapse">Edit Comment</a>
+                                    <form class="deleteForm" action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                                        <button class="btn btn-danger">Delete Comment</button>
+                                    </form>
+                                    <br><br>
+                                    <div class="collapse" id="collapseEdit<%= comment._id %>">
+                                        <form action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=PUT" method="POST">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" value="<%= currentUser.username %>" disabled>
+                                            </div>
+                                            <div class="form-group">
+                                                <textarea class="form-control" name="comment[text]" rows="7"><%= comment.text %></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <button class="btn btn-success">Edit Comment</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    
+                                <% } %>
+                                
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+            
+            
+           
+            
+            
+        </div>
+    </div>
+</div>
+
+<% include ../partials/footer %>
