@@ -8,6 +8,7 @@ const express = require("express"),
     LocalStrategy = require("passport-local").Strategy,
     session = require("express-session"),
     User = require("./models/user"),
+    PORT = process.env.PORT || 3000;
     
     require("dotenv").config();
 
@@ -52,7 +53,7 @@ mongoose.connect("mongodb://william:review123@ds125031.mlab.com:25031/wcyelpcamp
 app.use(express.static(__dirname + "/public"));
 // seedDB();
 
-app.listen(3000, function () {
-    console.log(`Server has started on port 3000`);
+app.listen(PORT, function () {
+    console.log(`Server has started on port ${PORT}`);
 })
 
