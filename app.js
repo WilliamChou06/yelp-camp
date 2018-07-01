@@ -49,7 +49,7 @@ app.use(indexRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
-mongoose.connect("mongodb://localhost/yelp_camp");
+mongoose.connect("mongodb://williamc16799:espidermaine16799@ds125031.mlab.com:25031/wcyelpcamp");
 
 app.use(express.static(__dirname + "/public"));
 // seedDB();
