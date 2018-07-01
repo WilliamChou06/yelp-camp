@@ -48,7 +48,9 @@ app.use(indexRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
-mongoose.connect("mongodb://william:review123@ds125031.mlab.com:25031/wcyelpcamp");
+const dbURL = process.env.DBURL || "mongodb://localhost:27017/yelpcamp";
+
+mongoose.connect(dbURL);
 
 app.use(express.static(__dirname + "/public"));
 // seedDB();
